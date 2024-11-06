@@ -80,7 +80,7 @@ var pts = hull(pointset, 10);
 
 
 <!-- EXAMPLE 1.1 -->
-<p>You can adjust concavity of a hull via 2nd param:</p>
+<p>You can adjust concavity of a hull via the 2nd param:</p>
 <pre><code>var pointset = [[251, 275], [248, 276], [255, 272], [246,278], ...];
 var pts = hull(pointset, 80);
 // ... draw pts</code></pre>
@@ -271,7 +271,7 @@ clusters.forEach(function(pointset) {
 <!-- END: Example 3_1 -->
 
 <!-- Example 4 -->
-<h3><a name="ex4" class="anchor" href="#ex4"><span class="octicon octicon-link"></span>Geo Points</a></h3>
+<h3><a name="ex4" class="anchor" href="#ex4"><span class="octicon octicon-link"></span>Point Format</a></h3>
 <p>If your point format differs from the [x, y] then you can provide a custom format pattern:</p>
 <pre><code>var pointset = [
     { lng: -0.2067, lat: 51.4911 },
@@ -303,8 +303,8 @@ var pts = hull(pointset, 0.0011, ['.lng', '.lat']);
 <!-- END: Example 4 -->
 
 <!-- Example 5 -->
-<h3><a name="ex5" class="anchor" href="#ex5"><span class="octicon octicon-link"></span>Geo Points on a Globe</a></h3>
-<p>All calculations in hull.js are based on cartesian coordinate system. If you use it for calculation and data visualization on the global map, don't forget that globe has the shape of geoid, latitude and longitude are angles (not points with X and Y), and after projection we have some map distortion. So, for the better accuracy you need to convert latitudes and longitudes to cartesian coordinates, calculate concave hull and then convert points back to the geo points. For example (using <a href="http://leafletjs.com/" target="_blank">Leaflet</a> library):</p>
+<h3><a name="ex5" class="anchor" href="#ex5"><span class="octicon octicon-link"></span>Geo Points</a></h3>
+<p>hull.js is a general-purpose geometrical library, not a geospatial library. All calculations in hull.js are based on cartesian coordinate system. If you use it for cartographic tasks then don't forget that Earth has a shape of geoid, latitude and longitude are angles (and not points with X and Y), and projecting sphere to a plane results in distortion. For better accuracy, convert latitudes and longitudes to cartesian coordinates, calculate concave hull and then convert points back to the geo points. For example (using <a href="http://leafletjs.com/" target="_blank">Leaflet</a> library):</p>
 <pre><code>var pointset = [
     { lng:-20, lat:90 },
     { lng:-20, lat:80 },
