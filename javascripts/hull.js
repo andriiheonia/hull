@@ -1,37 +1,25 @@
+/* hull.js bundle for examples page */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.hull = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-    function _cross(o, a, b) {
-        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    function _ccw(p1, p2, p3) {
+        return (p2[0] - p1[0]) * (p3[1] - p1[1]) - (p2[1] - p1[1]) * (p3[0] - p1[0]) <= 0;
     }
 
-    function _upperTangent(pointset) {
-        const lower = [];
-        for (let l = 0; l < pointset.length; l++) {
-            while (lower.length >= 2 && (_cross(lower[lower.length - 2], lower[lower.length - 1], pointset[l]) <= 0)) {
-                lower.pop();
+    function _tangent(pointset) {
+        const res = [];
+        for (let t = 0; t < pointset.length; t++) {
+            while (res.length > 1 && _ccw(res[res.length - 2], res[res.length - 1], pointset[t])) {
+                res.pop();
             }
-            lower.push(pointset[l]);
+            res.push(pointset[t]);
         }
-        lower.pop();
-        return lower;
-    }
-
-    function _lowerTangent(pointset) {
-        const reversed = pointset.reverse(),
-            upper = [];
-        for (let u = 0; u < reversed.length; u++) {
-            while (upper.length >= 2 && (_cross(upper[upper.length - 2], upper[upper.length - 1], reversed[u]) <= 0)) {
-                upper.pop();
-            }
-            upper.push(reversed[u]);
-        }
-        upper.pop();
-        return upper;
+        res.pop();
+        return res;
     }
 
     // pointset has to be sorted by X
     function convex(pointset) {
-        const upper = _upperTangent(pointset),
-              lower = _lowerTangent(pointset);
+        const upper = _tangent(pointset),
+              lower = _tangent(pointset.reverse());
         const convex = lower.concat(upper);
         convex.push(pointset[0]);
         return convex;
@@ -164,11 +152,7 @@
 
     module.exports = grid;
     },{}],4:[function(require,module,exports){
-    /*
-     (c) 2014-2024, Andrii Heonia
-     Hull.js is a JavaScript library that builds concave hull by set of points.
-     https://github.com/andriiheonia/hull
-    */
+    /* The license text can be found in the LICENSE file */
 
     'use strict';
 
